@@ -1,0 +1,22 @@
+function [solution] = Square_Draw(image,centers,states)
+%Draws a square of a given color to the matrix image centered at the 
+%centroid given. imageSize must be a vector with the following values:
+%[height,width,RGB] This is most easily accomplized by using the
+%size(image)function as the value of imageSize.
+%make a copy of the original image
+solution = image;
+for square = 1:9
+for ii = centers(square,1)-96:centers(square,1)+96
+    for jj = centers(square,2)-96:centers(square,2)+96
+        switch states(square)
+            case 1
+                solution(ii,jj,:) = [0,255,0];
+            case 0
+                solution(ii,jj,:) = [0,0,0];
+        end
+    end
+end
+end
+solution = cat(2,image,solution);
+end
+
