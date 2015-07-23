@@ -1,0 +1,18 @@
+function [states] = States(image,centers)
+%centers must represent a 9x2 matrix where the columns represent row,column
+%values, respectively and the rows represent the square on the game board.
+%This function returns a 9x1 matrix where the rows represent the individual
+%squares on the game board and the value of that index can be either 1 or 0
+% representing on and off, respectively
+states = logical(zeros(9,1));
+for ii = 1:9
+    if image(centers(ii,1),centers(ii,2),:) == cat(3,0,0,0)
+        states(ii) = 0;
+    elseif image(centers(ii,1),centers(ii,2),:) == cat(3,247,239,123)
+        states(ii) = 1;
+    else
+        fprintf('error')
+        break
+    end
+end
+end
