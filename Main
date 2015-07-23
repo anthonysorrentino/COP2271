@@ -1,0 +1,7 @@
+data = imread('Test.png');
+data = Crop(data);
+centers = Centers(data);
+states = States(data,centers);
+solution = Square_Draw(data,centers,states);
+
+imshow(solution)
