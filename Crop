@@ -1,27 +1,36 @@
-function [centers] = Centers(data)
-
-%Centers() returns a 2D matrix containing the row,column coordinates of the center of 
-%each square of the game board. 
-%    1 | 2 | 3              centers = [row_1,column_1;
-%   ___|___|___      ---->             row_2,column_2;
-%    4 | 5 | 6                         row_3,column_3;
-%   ___|___|___                              .
-%    7 | 8 | 9                               .
-%                                            .
-%                                       row_9,column_9]
-%
-
-%binary = logical(zeros(height,width));
+function [new_image] = Crop(data)
 [height, width, RGB] = size(data);
-centers = [];
-
-for ii = 1:2:5
-    for jj = 1:2:5
-    row = uint16(((height - 12) * (ii/6)) + 3*(ii-1));
-    column = uint16(((width - 12) * (jj/6)) + 3*(jj-1));
-   %binary(row,column) = 1;
-    centers = cat(1,centers,[row,column]); 
+%binary = logical(zeros(height,width));
+%Vectors containing the coordinates for center grid
+grid_rows = [];
+grid_columns = [];
+for ii = 1:height
+    for jj = 1:width
+        if data(ii,jj,1) == 123 && data(ii,jj,2) == 198 && data(ii,jj,3) == 173
+            grid_rows = [grid_rows,ii];
+            grid_columns = [grid_columns, jj];
+        end
     end
 end
-%imshow(binary)
+
+%The range of grid_rows is the height of the gameboard and the min is the coordinate of the bottom of
+%the board.
+range_row = range(grid_rows);
+min_row = min(grid_rows);
+
+
+%The range of grid_columns is the height of the gameboard and the min is the coordinate of the bottom of
+%the board.
+range_column = range(grid_columns);
+min_column = min(grid_columns);
+
+new_image = uint8(zeros(range_row,range_column,3));
+
+for ii = 0:range_row-1
+    for jj = 0:range_row-1
+        new_image(ii+1,jj+1,:) = data(min_row+ii,min_column+jj,:);
+    end
+end
+
+
 end
