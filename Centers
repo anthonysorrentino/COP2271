@@ -10,16 +10,28 @@ function [centers] = Centers(data)
 %                                            .
 %                                       row_9,column_9]
 %
-
-%binary = logical(zeros(height,width));
 [height, width, RGB] = size(data);
+%binary = logical(zeros(height,width));
 centers = [];
-
+corrWidth = [];
+corrHeight = [];
+for ii = 1:width
+    if data(1,ii,:) ~= cat(3,127,199,175)
+        corrWidth = [corrWidth,1];
+    end
+end
+for ii = 1:height
+    if data(1,ii,:) ~= cat(3,127,199,175)
+        corrHeight = [corrHeight,1];
+    end
+end
+corrHeight = length(corrHeight)
+corrWidth = length(corrWidth)
 for ii = 1:2:5
     for jj = 1:2:5
-    row = uint16(((height - 12) * (ii/6)) + 3*(ii-1));
-    column = uint16(((width - 12) * (jj/6)) + 3*(jj-1));
-   %binary(row,column) = 1;
+    row = uint16((corrHeight) * (ii/6));
+    column = uint16((corrWidth) * (jj/6));
+    %binary(row,column) = 1;
     centers = cat(1,centers,[row,column]); 
     end
 end
